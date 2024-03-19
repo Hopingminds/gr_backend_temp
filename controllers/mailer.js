@@ -1,15 +1,15 @@
 import nodemailer from 'nodemailer'
 import Mailgen from 'mailgen'
-
-import ENV from '../config.js'
-
+import dotenv from 'dotenv'
+// import ENV from '../config.js'
+dotenv.config();
 let nodeConfig = {
 	host: 'smtp.gmail.com',
 	port: 587,
 	secure: false, // true for 465, false for other ports
 	auth: {
-		user: ENV.EMAIL_USERNAME,
-		pass: ENV.EMAIL_PASSWORD,
+		user: process.env.EMAIL_USERNAME,
+		pass: process.env.EMAIL_PASSWORD,
 	},
 }
 
@@ -25,10 +25,10 @@ let MailGenerator = new Mailgen({
 
 /** POST: http://localhost:8080/api/registerMail 
  * @param: {
-    "username" : "example123",
-    "userEmail" : "admin123",
-    "text" : "",
-    "subject" : "",
+	"username" : "example123",
+	"userEmail" : "admin123",
+	"text" : "",
+	"subject" : "",
 }
 */
 export const registerMail = async (req, res) => {
@@ -46,7 +46,7 @@ export const registerMail = async (req, res) => {
 	var emailBody = MailGenerator.generate(email)
 
 	let message = {
-		from: ENV.EMAIL,
+		from: process.env.EMAIL,
 		to: userEmail,
 		subject: subject || 'Signup Successful',
 		html: emailBody,
@@ -55,7 +55,7 @@ export const registerMail = async (req, res) => {
 	// send mail
 	transporter.sendMail(message)
 		.then(() => {
-			return res.status(200) 
+			return res.status(200)
 		})
-		.catch((error) => {console.log(error); res.status(500)})
+		.catch((error) => { console.log(error); res.status(500) })
 }
