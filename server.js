@@ -9,6 +9,7 @@ const app = express()
 
 
 // middlewares
+dotenv.config()
 app.use(express.json())
 app.use(cors())
 app.use(morgan('tiny'))
@@ -17,20 +18,19 @@ const ENV = process.env;
 console.log(ENV.EMAIL_USERNAME)
 // console.log(ENV.EMAIL_USERNAME)
 const port = process.env.PORT || 8000;
-dotenv.config()
 
 // HTTP GET Request
 app.get('/', (req, res) => {
     res.status(201).send('SERVER IS RUNNING')
 })
 
-const allowedIPs = ENV.ALLOWED_IPS;
+// const allowedIPs = ENV.ALLOWED_IPS;
 
 // Middleware to check if request is coming from allowed IP addresses
 const allowOnlyFromAllowedIPs = (req, res, next) => {
     const clientIP = req.ip.replace('::ffff:', '');
     // console.log(clientIP);
-    if (allowedIPs.includes(clientIP) || !ENV.ALLOW_ONLY_ALLOWED_IPS) {
+    if (!ENV.ALLOW_ONLY_ALLOWED_IPS) {
         next(); // Allow request to proceed
     } else {
         res.status(403).send(
@@ -39,7 +39,7 @@ const allowOnlyFromAllowedIPs = (req, res, next) => {
     }
 };
 // api routes
-app.use('/api', allowOnlyFromAllowedIPs, router)
+app.use('/api', router)
 
 app.use((req, res, next) => {
     res.status(404).send('<div style="position:absolute; left:50%; top:50%; transform: translate(-50%, -50%);"><img src="https://c.tenor.com/1-qDMRlzUn4AAAAd/tenor.gif"></img><h1 style="color:white; width:100%; text-align:center; position:absolute; bottom:1vh;">Hum pe to haie noo</h1></div>');
