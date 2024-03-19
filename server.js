@@ -3,20 +3,21 @@ import cors from 'cors'
 import morgan from 'morgan'
 import connect from './database/conn.js'
 import router from './router/route.js'
+import dotenv from 'dotenv'
 // import ENV from './config.js'
 const app = express()
-import dotenv from 'dotenv'
 
 
 // middlewares
-dotenv.config()
 app.use(express.json())
 app.use(cors())
 app.use(morgan('tiny'))
 app.disable('x-powered-by') //less hackers know about our stack
 const ENV = process.env;
 console.log(ENV.EMAIL_USERNAME)
+// console.log(ENV.EMAIL_USERNAME)
 const port = process.env.PORT || 8000;
+dotenv.config()
 
 // HTTP GET Request
 app.get('/', (req, res) => {

@@ -4,16 +4,18 @@ const require = createRequire(import.meta.url)
 import jwt from 'jsonwebtoken'
 import sellerModel from '../model/Seller.model.js'
 import deliveryboyModel from '../model/Deliveryboy.model.js'
+import dotenv from 'dotenv';
 
-const ENV = process.env;
-console.log(ENV)
+dotenv.config()
+// const ENV = "process.env";
+console.log(process.env.TWILIO_ACCOUNT_SID)
 
-// const accountSid = ENV.TWILIO_ACCOUNT_SID
-const accountSid = "AC4d4333f7c36b37421a98b027fc9e6deb"
-// const authToken = ENV.TWILIO_AUTH_TOKEN
-const authToken = "2325ac470d9d3c9fb95bf14cb9eb1853"
-// const verifySid = ENV.TWILIO_ACCOUNT_VERIFY_SID
-const verifySid = "VAde426f3dcaa347b6bd5c609342728ff4"
+const accountSid = process.env.TWILIO_ACCOUNT_SID
+// const accountSid = "AC4d4333f7c36b37421a98b027fc9e6deb"
+const authToken = process.env.TWILIO_AUTH_TOKEN
+// const authToken = "2325ac470d9d3c9fb95bf14cb9eb1853"
+const verifySid = process.env.TWILIO_ACCOUNT_VERIFY_SID
+// const verifySid = "VAde426f3dcaa347b6bd5c609342728ff4"
 const client = require('twilio')(accountSid, authToken)
 
 /** POST: http://localhost:8080/api/generateMobileOTP 
